@@ -6,7 +6,7 @@ Adicione senhas salvas localmente no seu dispositivo com uma camada de criptogra
 - 🌟 Gratuito para sempre, sem necessidade de assinatura.
 - ⚡ Sem necessidade de login.
 - 🔐 Criptografado localmente.
-- [📃 Sob a licença MIT](https://github.com/spruceewood/fooolyPasswords?tab=MIT-1-ov-file)
+- 📃 [Sob a licença MIT](https://github.com/spruceewood/fooolyPasswords?tab=MIT-1-ov-file)
 
 ## 📱 Baixar aplicativo
 - [Android](https://github.com/spruceewood/fooolyPasswords/releases/tag/v1.0.0a)
