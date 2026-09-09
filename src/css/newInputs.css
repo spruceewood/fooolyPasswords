@@ -1,0 +1,136 @@
+label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: 300;
+    color: #ffffffa5;
+    font-size: 17.5px;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="number"],
+input[type="file"],
+input[type="password"],
+input[type="email"],
+input[type="tel"],
+select,
+textarea {
+    width: 100%;
+    padding: 19px;
+    margin-bottom: 10px;
+    border: 1px solid #ffffff1e;
+    border-radius: 10px;
+    box-sizing: border-box;
+    background-color: #141414;
+    color: white;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    outline: none;
+    font-size: 16.5px;
+    resize: none;
+}
+input[type="text"]:hover,
+input[type="date"]:hover,
+input[type="datetime-local"]:hover,
+input[type="number"]:hover,
+input[type="file"]:hover,
+input[type="password"]:hover,
+input[type="email"]:hover,
+input[type="tel"]:hover,
+select:hover,
+textarea:hover {
+    border: 1px #ffffff2d solid;
+    background-color: #0a0a0a;
+}
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="datetime-local"]:focus,
+input[type="number"]:focus,
+input[type="file"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+select:focus,
+textarea:focus {
+    border: 1px #292929 solid;
+    background-color: #0a0a0a;
+}
+
+input[type="file"]::before {
+    content: 'Enviar';
+    /* Texto customizado */
+    display: inline-block;
+    background: transparent;
+    color: gray;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 15px;
+    font-family: var(--fonte);
+}
+
+input[type="file"]::-webkit-file-upload-button {
+    display: none;
+}
+
+input[type="file"]::-ms-browse {
+    color: gray;
+}
+
+button[type=submit] {
+    width: 100%;
+    padding: 19px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border-radius: 10px;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+    background-color: #522e11;
+    cursor: pointer;
+    font-size: 16.5px;
+    color: #fff;
+    font-weight: 500;
+    border: none;
+    text-align: left;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+button[type=submit]:hover {
+    background-color: #83410c;
+}
+
+button[type=submit]:focus {
+    background-color: #743a0b;
+}
+
+button[type="submit"] {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="rgba(255,255,255,1)"><path d="M3 12.9999H9V10.9999H3V1.84558C3 1.56944 3.22386 1.34558 3.5 1.34558C3.58425 1.34558 3.66714 1.36687 3.74096 1.40747L22.2034 11.5618C22.4454 11.6949 22.5337 11.9989 22.4006 12.2409C22.3549 12.324 22.2865 12.3924 22.2034 12.4381L3.74096 22.5924C3.499 22.7255 3.19497 22.6372 3.06189 22.3953C3.02129 22.3214 3 22.2386 3 22.1543V12.9999Z"></path></svg>');
+    background-repeat: no-repeat;
+    background-position: calc(100% - 10px) center;
+    padding-right: 14px; /* espaço para o ícone */
+    background-size: 25px 25px; /* Largura e altura da imagem */
+}
+
+.btn-fl {
+    width: 100%;
+    padding: 19px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border-radius: 10px;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+    background-color: #522e11;
+    cursor: pointer;
+    font-size: 16.5px;
+    color: #fff;
+    font-weight: 500;
+    border: none;
+    text-align: left;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.btn-fl:hover {
+    background-color: #83410c;
+}

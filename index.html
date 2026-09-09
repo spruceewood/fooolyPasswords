@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>foooly Passwords</title>
+    <link rel="stylesheet" href="/src/css/style.css">
+    <link rel="stylesheet" href="/src/css/settings.css">
+    <link rel="stylesheet" href="/src/css/newInputs.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="shortcut icon" href="/src/assets/fooolyPasswords_ic.png" type="image/x-icon">
+    <!-- METATAGS-->
+    <meta content="Foooly Passwords" property="og:title" />
+    <meta content="Crie e guarde suas senhas criptografadas em um só lugar. As senhas são salvas no seu dispositivo local."
+        property="og:description" />
+    <meta content="https://passwords.foooly.com" property="og:url" />
+    <meta property="og:type" content="website" />
+    <!-- PHOSPHOR ICONS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/thin/style.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/duotone/style.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/light/style.css" />
+</head>
+<body>
+    <!-- Container de Toasts -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- TELA DE AUTENTICAÇÃO (CHAVE SECRETA) -->
+    <div id="auth-modal" class="modal auth-overlay">
+        <div class="modal-content auth-box">
+            <i class="fas fa-lock auth-icon"></i>
+            <h3>Verificar Identidade</h3>
+            <p>Insira sua chave secreta para acessar.</p>
+            <div class="input-group">
+                <div class="password-wrapper">
+                    <input type="password" id="auth-secret-input" placeholder="Sua chave secreta" onkeypress="handleAuthKeyPress(event)">
+                    <button class="toggle-pwd-btn" onclick="toggleInputPassword('auth-secret-input', this)"><i class="ri-eye-fill"></i></button>
+                </div>
+            </div>
+            <button class="btn-save" style="width: 100%;" onclick="checkSecretKey()">
+                Desbloquear
+            </button>
+        </div>
+    </div>
+
+    <!-- BARRA SUPERIOR (TOP BAR) -->
+    <header class="top-bar">
+        <button class="icon-btn menu-btn" onclick="openSidebar()"><i class="ph-bold ph-list"></i></button>
+        <div class="search-container">
+            <input type="text" class="searchInputer" id="search-input" placeholder="Pesquisar senhas..." oninput="filterPasswords()">
+        </div>
+        <button class="icon-btn search-btn" onclick="focusSearch()"><i class="ph-bold ph-magnifying-glass"></i></button>
+    </header>
+
+    <!-- OVERLAY E SIDEBAR (MENU LATERAL) -->
+    <div id="sidebar-overlay" class="overlay" onclick="closeSidebar()"></div>
+    <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h3><span style="color: var(--primary-color);">foooly</span> Passwords</h3>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="active" id="nav-home" onclick="switchTab('home'); closeSidebar()"><i class="ri-home-fill"></i> Início</li>
+            <li id="nav-checkup" onclick="switchTab('checkup'); closeSidebar()"><i class="ri-shield-check-fill"></i> Checkup de Senhas</li>
+            <li id="nav-generator" onclick="switchTab('generator'); closeSidebar()"><i class="ri-key-line"></i> Gerar senha</li>
+            <li id="nav-settings" onclick="switchTab('settings'); closeSidebar()"><i class="ri-settings-4-fill"></i> Configurações</li>
+        </ul>
+    </aside>
+
+    <!-- PÁGINA INICIAL -->
+    <main id="home-tab" class="tab-content active">
+        <div id="empty-state" class="empty-state">
+            <i class="fas fa-frown sad-icon"></i>
+            <p>Nenhuma senha encontrada... tá tudo muito quieto aqui...</p>
+        </div>
+
+        <div id="password-list" class="password-list">
+            <!-- Senhas aparecerão aqui -->
+        </div>
+
+        <button class="fab" onclick="openModal()">+</button>
+    </main>
+
+    <!-- CHECKUP DE SENHAS -->
+    <main id="checkup-tab" class="tab-content">
+        <div class="checkup-container">
+            <div class="circular-progress-container">
+                <svg viewBox="0 0 36 36" class="circular-chart">
+                    <path class="circle-bg"
+                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    <path class="circle" id="checkup-circle" stroke-dasharray="0, 100"
+                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                </svg>
+                <div class="checkup-icon" id="checkup-icon">
+                    <i class="ri-subtract-line" style="color: #636363;"></i>
+                </div>
+                <div class="checkup-percent" id="checkup-percent"><span style="color: #636363;">0</span></div>
+            </div>
+
+            <h2 id="checkup-title">Fazer checkup das suas senhas</h2>
+            <p id="checkup-subtitle" style="color: var(--text-secondary); text-align: center; margin-bottom: 25px;">
+                Faça checkup regularmente para ver se suas senhas são seguras e fortes.
+            </p>
+
+            <div class="compromised-list" id="compromised-list" style="display: none;">
+                <!-- Senhas fracas/reutilizadas aparecerão aqui -->
+            </div>
+
+            <button class="btn-save btn-checkup" onclick="runCheckup()">Fazer checkup</button>
+            <p class="hint" style="text-align: center; margin-top: 15px;">Todas as suas senhas são salvas localmente. <a href="https://support.foooly.com/s/IOyXj" style="color: #8ab4f8;" rel="noopener noreferrer">Saiba mais.</a></p>
+        </div>
+    </main>
+
+    <!-- GERADOR DE SENHAS -->
+    <main id="generator-tab" class="tab-content">
+        <h2>Gerador de Senhas</h2>
+        
+        <div class="generator-display">
+            <!-- Trocado para um input transparente -->
+            <input type="text" id="generated-password" readonly placeholder="Sua senha aparecerá aqui">
+            <div class="generator-actions">
+                <button onclick="copyGeneratedPassword()"><i class="ri-file-copy-fill"></i></button>
+                <button onclick="generatePassword()"><i class="fas fa-sync-alt"></i></button>
+            </div>
+        </div>
+
+        <div class="generator-options">
+            <div class="input-group">
+                <label>Quantidade de Caracteres</label>
+                <!-- Trocado de range para input number -->
+                <input type="number" id="gen-length" min="4" max="128" value="16" oninput="generatePassword()">
+            </div>
+            
+            <div class="input-group">
+                <label>Adicionar outros caracteres</label>
+                <input type="text" id="gen-custom" placeholder="Ex: §, £, ¢..." oninput="generatePassword()">
+            </div>
+
+            <div class="setting-item">
+                <label>Letras Minúsculas (a-z)</label>
+                <label class="switch"><input type="checkbox" id="gen-lower" checked onchange="generatePassword()"><span class="slider"></span></label>
+            </div>
+            <div class="setting-item">
+                <label>Letras Maiúsculas (A-Z)</label>
+                <label class="switch"><input type="checkbox" id="gen-upper" checked onchange="generatePassword()"><span class="slider"></span></label>
+            </div>
+            <div class="setting-item">
+                <label>Números (0-9)</label>
+                <label class="switch"><input type="checkbox" id="gen-numbers" checked onchange="generatePassword()"><span class="slider"></span></label>
+            </div>
+            <div class="setting-item">
+                <label>Símbolos (!@#...)</label>
+                <label class="switch"><input type="checkbox" id="gen-symbols" checked onchange="generatePassword()"><span class="slider"></span></label>
+            </div>
+            <div class="setting-item">
+                <label>Permitir repetição de caracteres</label>
+                <label class="switch"><input type="checkbox" id="gen-repeat" checked onchange="generatePassword()"><span class="slider"></span></label>
+            </div>
+        </div>
+    </main>
+
+    <!-- PÁGINA DE CONFIGURAÇÕES -->
+    <main id="settings-tab" class="tab-content">
+        <section class="settings-sectionMain">
+            <h2>
+                <i class="fa-solid fa-shield"></i> Segurança
+            </h2>
+                        
+            <ul>
+                <li class="settingsMain-item">
+                    <span>
+                        <i class="ri-lock-star-fill"></i> Criptografar senhas
+                    </span>
+                    <label class="switch">
+                        <input type="checkbox" id="encrypt-toggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </li>
+                <li class="settingsMain-item-b" onclick="openSecretKeyModal()">
+                    <span>
+                        <i class="ri-key-2-fill"></i> <span id="secret-btn-text" spanid>Adicionar chave secreta</span>
+                    </span>
+                </li>
+                <li class="settingsMain-item-c" onclick="changeCryptoKey()">
+                    <span>
+                        <i class="ri-loop-right-fill"></i> Rotacionar código de criptografia
+                    </span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="settings-sectionMain">
+            <h2>
+                <i class="fa-solid fa-file-shield"></i> Senhas atreladas
+                <p class="hint">
+                    Exportar senhas não estão criptografadas, não compartilhe
+                    o arquivo com ninguém e guarde em um lugar seguro.
+                </p>
+            </h2>
+                        
+            <ul>
+                <li class="settingsMain-item" onclick="importPasswordsClick()">
+                    <span>
+                        <i class="ri-inbox-archive-fill"></i> Importar senhas
+                    </span>
+                </li>
+                <li class="settingsMain-item-c" onclick="exportPasswords()">
+                    <span>
+                        <i class="ri-inbox-unarchive-fill"></i> Exportar senhas
+                    </span>
+                </li>
+            </ul>
+            <input type="file" id="import-file" accept=".json" style="display: none;" onchange="handleImport(event)">
+        </section>
+
+        <section class="settings-sectionMain">
+            <h2>
+                <i class="fa-solid fa-triangle-exclamation"></i> Zona de perigo
+            </h2>
+                        
+            <ul>
+                <li class="settingsMain-item aoRed" onclick="confirmDeleteAll()">
+                    <span>
+                        <i class="ri-delete-bin-fill"></i> Excluir todas as senhas
+                    </span>
+                </li>
+                <li class="settingsMain-item-c aoRed" id="btn-delete-secret" onclick="deleteSecretKey()" style="display: none;">
+                    <span>
+                        <i class="ri-lock-unlock-fill"></i> Remover chave secreta
+                    </span>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <!-- POPUP (MODAL) DE CRIAR/EDITAR SENHA -->
+    <div id="password-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="modal-title">Nova Senha</h2>
+
+            <div class="modalHeight">
+                <input type="hidden" id="edit-id">
+
+                <div class="input-group">
+                    <label>Nome do aplicativo ou site</label>
+                    <input type="text" id="site-name" placeholder="Ex: Instagram..." required>
+                </div>
+                <div class="input-group">
+                    <label>Senha</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="site-password" placeholder="Insira ou cole sua senha" required>
+                        <button class="toggle-pwd-btn" onclick="toggleInputPassword('site-password', this)"><i class="ri-eye-fill"></i></button>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Essa senha vai expirar?</label>
+                    <select id="will-expire" onchange="toggleExpiryField()">
+                        <option value="no">Não</option>
+                        <option value="yes">Sim</option>
+                    </select>
+                </div>
+                <div class="input-group" id="expiry-group" style="display: none;">
+                    <label>Data e Hora de Expiração</label>
+                    <input type="datetime-local" id="expiry-date">
+                </div>
+                <div class="input-group">
+                    <label>Descrição (Opcional)</label>
+                    <textarea id="site-desc" rows="2" placeholder="Detalhes adicionais..."></textarea>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeModal('password-modal')">Cancelar</button>
+                <button class="btn-save" onclick="savePassword()">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP DEFINIR CHAVE SECRETA -->
+    <div id="secret-key-modal" class="modal">
+        <div class="modal-content">
+            <h3>Definir Chave Secreta</h3>
+            <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 15px;">Esta chave será exigida sempre que você abrir o app. Não a perca!</p>
+            <div class="input-group">
+                <div class="password-wrapper">
+                    <input type="password" id="new-secret-input" placeholder="Digite a nova chave">
+                    <button class="toggle-pwd-btn" onclick="toggleInputPassword('new-secret-input', this)"><i class="fas fa-eye"></i></button>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeModal('secret-key-modal')">Cancelar</button>
+                <button class="btn-save" onclick="saveSecretKey()">Salvar Chave</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP CONFIRMAÇÃO ZONA DE PERIGO -->
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content">
+            <h3 style="color: var(--danger-color);"><i class="fas fa-exclamation-triangle"></i> ATENÇÃO</h3>
+            <p style="margin: 15px 0;">Isso vai excluir permanentemente todas as suas senhas. Para continuar, digite <strong>EXCLUIR</strong> abaixo:</p>
+            <div class="input-group">
+                <input type="text" id="confirm-delete-input" placeholder="Digite EXCLUIR">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeModal('confirm-modal')">Cancelar</button>
+                <button class="btn-danger" style="border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; color: white;" onclick="executeDeleteAll()">Apagar Tudo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOVO: POPUP DE CONFIRMAÇÃO CUSTOMIZADO -->
+    <div id="custom-confirm-modal" class="modal">
+        <div class="modal-content" style="text-align: center; max-width: 350px;">
+            <div style="font-size: 40px; margin-bottom: 15px; color: var(--primary-color);" id="confirm-icon">
+                <i class="ri-question-line"></i>
+            </div>
+            <h3 id="confirm-title" style="margin-bottom: 10px;">Confirmação</h3>
+            <p id="confirm-message" style="margin-bottom: 25px; color: var(--text-secondary); font-size: 14px;"></p>
+            <div class="modal-actions" style="justify-content: center; width: 100%;">
+                <button class="btn-cancel" onclick="closeModal('custom-confirm-modal')" style="flex: 1;">Cancelar</button>
+                <button class="btn-save" id="confirm-ok-btn" style="flex: 1;">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/src/js/script.js"></script>
+</body>
+</html>
