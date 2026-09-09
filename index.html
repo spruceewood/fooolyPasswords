@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>foooly Passwords</title>
+    <!-- ESTILOS E FAVICONS -->
     <link rel="stylesheet" href="/src/css/style.css">
     <link rel="stylesheet" href="/src/css/settings.css">
     <link rel="stylesheet" href="/src/css/newInputs.css">
@@ -25,10 +26,10 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/light/style.css" />
 </head>
 <body>
-    <!-- Container de Toasts -->
+    <!-- Toasts -->
     <div id="toast-container" class="toast-container"></div>
 
-    <!-- TELA DE AUTENTICAÇÃO (CHAVE SECRETA) -->
+    <!-- TELA DE AUTENTICAÇÃO -->
     <div id="auth-modal" class="modal auth-overlay">
         <div class="modal-content auth-box">
             <i class="fas fa-lock auth-icon"></i>
@@ -46,7 +47,7 @@
         </div>
     </div>
 
-    <!-- BARRA SUPERIOR (TOP BAR) -->
+    <!-- BARRA SUPERIOR -->
     <header class="top-bar">
         <button class="icon-btn menu-btn" onclick="openSidebar()"><i class="ph-bold ph-list"></i></button>
         <div class="search-container">
@@ -55,7 +56,7 @@
         <button class="icon-btn search-btn" onclick="focusSearch()"><i class="ph-bold ph-magnifying-glass"></i></button>
     </header>
 
-    <!-- OVERLAY E SIDEBAR (MENU LATERAL) -->
+    <!-- OVERLAY E SIDEBAR -->
     <div id="sidebar-overlay" class="overlay" onclick="closeSidebar()"></div>
     <aside id="sidebar" class="sidebar">
         <div class="sidebar-header">
@@ -105,7 +106,7 @@
             </p>
 
             <div class="compromised-list" id="compromised-list" style="display: none;">
-                <!-- Senhas fracas/reutilizadas aparecerão aqui -->
+                <!-- Senhas aparecerão aqui -->
             </div>
 
             <button class="btn-save btn-checkup" onclick="runCheckup()">Fazer checkup</button>
@@ -113,12 +114,10 @@
         </div>
     </main>
 
-    <!-- GERADOR DE SENHAS -->
     <main id="generator-tab" class="tab-content">
         <h2>Gerador de Senhas</h2>
         
         <div class="generator-display">
-            <!-- Trocado para um input transparente -->
             <input type="text" id="generated-password" readonly placeholder="Sua senha aparecerá aqui">
             <div class="generator-actions">
                 <button onclick="copyGeneratedPassword()"><i class="ri-file-copy-fill"></i></button>
@@ -129,7 +128,6 @@
         <div class="generator-options">
             <div class="input-group">
                 <label>Quantidade de Caracteres</label>
-                <!-- Trocado de range para input number -->
                 <input type="number" id="gen-length" min="4" max="128" value="16" oninput="generatePassword()">
             </div>
             
@@ -161,7 +159,6 @@
         </div>
     </main>
 
-    <!-- PÁGINA DE CONFIGURAÇÕES -->
     <main id="settings-tab" class="tab-content">
         <section class="settings-sectionMain">
             <h2>
@@ -235,7 +232,6 @@
         </section>
     </main>
 
-    <!-- POPUP (MODAL) DE CRIAR/EDITAR SENHA -->
     <div id="password-modal" class="modal">
         <div class="modal-content">
             <h2 id="modal-title">Nova Senha</h2>
@@ -278,7 +274,6 @@
         </div>
     </div>
 
-    <!-- POPUP DEFINIR CHAVE SECRETA -->
     <div id="secret-key-modal" class="modal">
         <div class="modal-content">
             <h3>Definir Chave Secreta</h3>
@@ -296,7 +291,6 @@
         </div>
     </div>
 
-    <!-- POPUP CONFIRMAÇÃO ZONA DE PERIGO -->
     <div id="confirm-modal" class="modal">
         <div class="modal-content">
             <h3 style="color: var(--danger-color);"><i class="fas fa-exclamation-triangle"></i> ATENÇÃO</h3>
@@ -311,7 +305,6 @@
         </div>
     </div>
 
-    <!-- NOVO: POPUP DE CONFIRMAÇÃO CUSTOMIZADO -->
     <div id="custom-confirm-modal" class="modal">
         <div class="modal-content" style="text-align: center; max-width: 350px;">
             <div style="font-size: 40px; margin-bottom: 15px; color: var(--primary-color);" id="confirm-icon">

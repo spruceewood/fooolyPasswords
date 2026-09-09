@@ -76,7 +76,6 @@ function checkSecurityBanner() {
             </div>
         `;
         
-        // Injeta no topo do body
         document.body.prepend(banner);
     }
 }
