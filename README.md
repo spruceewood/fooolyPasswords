@@ -1,6 +1,13 @@
 # fooolyPasswords
 Adicione senhas salvas localmente no seu dispositivo com uma camada de criptografia, além disso, adicione uma senha a mais (Chave Secreta) e proteja mais ainda suas senhas.
 
-## Doe para o projeto
-- [Livepix](https://livepix.gg/jhordan)
-- [BuyMeACoffe](https://buymeacoffee.com/jhordanlossehelin)
+## Para começar, fique à vontade!
+- 🔍 Livre e de código aberto.
+- 🌟 Gratuito para sempre, sem necessidade de assinatura.
+- ⚡ Sem necessidade de login.
+- 🔐 Criptografado localmente.
+- [📃 Sob a licença MIT](https://github.com/spruceewood/fooolyPasswords?tab=MIT-1-ov-file)
+
+
+## Gostou? Que tal fazer uma doação?
+Considere [❤️ doar](https://foooly.com/doar).
