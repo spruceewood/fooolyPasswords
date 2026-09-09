@@ -8,6 +8,9 @@ Adicione senhas salvas localmente no seu dispositivo com uma camada de criptogra
 - 🔐 Criptografado localmente.
 - [📃 Sob a licença MIT](https://github.com/spruceewood/fooolyPasswords?tab=MIT-1-ov-file)
 
+## 📱 Baixar aplicativo
+- [Android](https://github.com/spruceewood/fooolyPasswords/releases/tag/v1.0.0a)
+- [EM BREVE: Windows](https://passwords.foooly.com)
 
 ## Gostou? Que tal fazer uma doação?
 Considere [❤️ doar](https://foooly.com/doar).
